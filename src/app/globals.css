@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --breakpoint-2xl: 90rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,3 +25,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.button{
+  padding: 4px 10px;
+  background-color: #0a0a0a;
+  color: #fff;
+}
+
+/* font-family: Satoshi;
+font-weight: 700;
+font-style: Bold;
+font-size: 20px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+text-transform: lowercase; */
+
