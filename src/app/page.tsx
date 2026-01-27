@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProductItem from "@/components/home/ProductItem";
+import Banner from "@/components/home/Banner"
 
 export default function Home() {
   const products = [
@@ -8,7 +9,7 @@ export default function Home() {
       name: "T-SHIRT WITH TAPE DETAILS",
       rate: 4.4,
       originalPrice: 140,
-      discountPercent: 25,
+      discountPercent: 0,
       imgURL: "/images/product1.png",
     },
     {
@@ -24,7 +25,7 @@ export default function Home() {
       name: "CHECKERED SHIRT",
       rate: 4.5,
       originalPrice: 200,
-      discountPercent: 30,
+      discountPercent: 0,
       imgURL: "/images/product3.png",
     },
     {
@@ -36,23 +37,47 @@ export default function Home() {
       imgURL: "/images/product4.png",
     }
   ]
+  const bannerData = {
+    title: "FIND CLOTHES THAT MATCHES YOUR STYLE",
+    des: "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+    btnName: "Shop Now",
+    bannerDesktopUrl: "/images/banner.jpg",
+    bannerMobileUrl: "/images/banner-mobile.png",
+    bannerItems: [
+      {
+        statistic: "200+",
+        statisticName: "International Brands",
+      },
+      {
+        statistic: "2,000+",
+        statisticName: "High-Quality Products",
+      },
+      {
+        statistic: "30,000+",
+        statisticName: "Happy Customers",
+      },
+    ]
+  }
   return (
-    <div className="lg:px-25 md:px-4 px-4">
-      <h2 className="text-5xl font-bold pb-8 text-center">NEW ARRIVALS</h2>
-      <div className="grid grid-cols-4 gap-4">
-        {products.map((product) => {
-          const { id, name: productName, rate, originalPrice, discountPercent, imgURL } = product
-          return <ProductItem
-            key={id}
-            productName={productName}
-            rate={rate}
-            originalPrice={originalPrice}
-            discountPercent={discountPercent}
-            imgURL={imgURL}
-          />
-        })}
+    <div>
+      <div className="lg:px-25 md:px-4 px-4">
+        <h2 className="text-5xl font-bold pb-8 text-center">NEW ARRIVALS</h2>
+        <div className="grid grid-cols-4 gap-4">
+          {products.map((product) => {
+            const { id, name: productName, rate, originalPrice, discountPercent, imgURL } = product
+            return <ProductItem
+                key={id}
+                productName={productName}
+                rate={rate}
+                originalPrice={originalPrice}
+                discountPercent={discountPercent}
+                imgURL={imgURL}
+              />
+          })}
+        </div>
       </div>
-
+      <Banner data={bannerData} />
     </div>
+
   );
 }
