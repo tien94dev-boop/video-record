@@ -1,8 +1,12 @@
+"use client"
+import { useState } from "react"
 import Image from "next/image";
 import ProductItem from "@/components/home/ProductItem";
 import Banner from "@/components/home/Banner"
+import NotificationSignUp from "@/components/home/NotificationSignUp"
 
 export default function Home() {
+  const [showNotification, setShowNotification] = useState(true)
   const products = [
     {
       id: 1,
@@ -58,8 +62,12 @@ export default function Home() {
       },
     ]
   }
+  function handleNotificationClose(){
+    setShowNotification(false)
+  }
   return (
     <div>
+      {showNotification && <NotificationSignUp handleNotificationClose={handleNotificationClose}/>}
       <div className="lg:px-25 md:px-4 px-4">
         <h2 className="text-5xl font-bold pb-8 text-center">NEW ARRIVALS</h2>
         <div className="grid grid-cols-4 gap-4">
