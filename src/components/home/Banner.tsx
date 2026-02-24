@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 
 interface BannerItem {
@@ -25,10 +26,7 @@ export default function Banner({ data }: { data: BannerInterface }) {
             </div>
             <div className="grid md:grid-cols-3 grid-cols-2 mt-2 md:divide-x md:divide-gray-400 gap-4">
                 {bannerItems.map((bannerItem, index) => {
-                    return <div key={index} className="text-center first:text-center last:text-center last:col-span-2
-                                                        md:col-span-1 md:last:col-span-1 md:last:text-right md:first:text-left
-                                                        max-md:even:border-l-2 even:border-gray-400
-                                                        ">
+                    return <div key={index} className="text-center first:text-center last:text-center last:col-span-2 md:col-span-1 md:last:col-span-1 md:last:text-right md:first:text-left max-md:even:border-l-2 even:border-gray-400">
                         <p className="md:text-[40px] text-3xl font-bold">{bannerItem.statistic}</p>
                         <p className="md:text-base text-xs">{bannerItem.statisticName}</p>
                     </div>

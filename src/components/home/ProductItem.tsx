@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Rate from "@/components/home/Rate"
 import ProductPrice from "@/components/home/ProductPrice";
+import AddToCart from "@/components/common/AddToCart"
 
 interface ProductItemInterface {
     productName: string
@@ -12,7 +13,7 @@ interface ProductItemInterface {
 
 export default function ProductItem({ productName, rate, originalPrice, discountPercent, imgURL }: ProductItemInterface){
     
-    return <div className="col-span-4 md:col-span-2 lg:col-span-1">
+    return <div className="col-span-4 md:col-span-2 lg:col-span-1 gap-4">
     {/* Product Image */}
     <div className="pb-4">
       <Image
@@ -30,7 +31,9 @@ export default function ProductItem({ productName, rate, originalPrice, discount
       </div>
       <Rate rateNumber={rate}/>
       <ProductPrice originalPrice={originalPrice} discountPercent={discountPercent}/>
+      <AddToCart/>
     </div>
 
+ 
   </div>
 }

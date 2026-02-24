@@ -4,6 +4,7 @@ import Image from "next/image";
 import ProductItem from "@/components/home/ProductItem";
 import Banner from "@/components/home/Banner"
 import NotificationSignUp from "@/components/home/NotificationSignUp"
+import FormLogin from "@/components/home/FormLogin"
 
 export default function Home() {
   const [showNotification, setShowNotification] = useState(true)
@@ -67,6 +68,7 @@ export default function Home() {
   }
   return (
     <div>
+            <FormLogin/>
       {showNotification && <NotificationSignUp handleNotificationClose={handleNotificationClose}/>}
       <div className="lg:px-25 md:px-4 px-4">
         <h2 className="text-5xl font-bold pb-8 text-center">NEW ARRIVALS</h2>
@@ -85,6 +87,7 @@ export default function Home() {
         </div>
       </div>
       <Banner data={bannerData} />
+
     </div>
 
   );
