@@ -7,26 +7,26 @@ export default function NotificationSignUp(
     // const [firstName, setFirstName] = useState("")
     // const [lastName, setLastName] = useState("")
     // const [age, setAgeName] = useState("")
-    const [text, setText] = useState("")
     // const [valid, setValidName] = useState(false)
 
     function reducer(state: any, action: any) {
         let values = { ...state }
-        console.log({ state })
         const { type, value } = action
         if (type === "firstName") {
-            values.firstName = value
+            values.firstName = value || ""
         }
         if (type === "lastName") {
-            values.lastName = value 
+            values.lastName = value || ""
         }
         if (type === "age") {
-            values.age = value
-            // const valid = checkValid(values)
-            // values.valid = valid
+            values.age = value || ""
         }
 
-
+        const valid = checkValid(values)
+        values.valid = valid
+        if (type === "text") {
+            values.text = value || ""
+        }
         return values
     }
 
@@ -34,14 +34,13 @@ export default function NotificationSignUp(
         firstName: "",
         lastName: "",
         age: "",
-        valid: false
+        valid: false,
+        text: ""
     })
 
 
     function checkValid(values: any) {
-        console.log({ values })
         const { firstName, lastName, age } = values
-        console.log({ firstName, lastName, age })
 
         if (firstName.length > 0 && lastName.length > 0 && age.length > 0) {
             return true
@@ -50,9 +49,12 @@ export default function NotificationSignUp(
         }
     }
     function onSubmit() {
-        // if(valid){
-        //     setText([firstName, lastName, age].join(", "))
-        // }
+        if (state.valid) {
+            dispatch({
+                type: "text",
+                value: [state.firstName, state.lastName, state.age].join(", ")
+            })
+        }
     }
 
     return <div className="w-full text-center bg-white px-4 py-2 relative text-gray-900 text-sm flex flex-col gap-4 max-w-lg mx-auto">
@@ -64,7 +66,6 @@ export default function NotificationSignUp(
                 value={state?.firstName}
                 onChange={(e) => {
                     dispatch({ type: "firstName", value: e.target.value })
-                    checkValid({ fieldName: "firstName", value: e.target.value })
                 }}
                 className="h-11 w-full border border-gray-500 rounded px-2"
             />
@@ -77,7 +78,6 @@ export default function NotificationSignUp(
                 value={state.lastName}
                 onChange={(e) => {
                     dispatch({ type: "lastName", value: e.target.value })
-                    checkValid({ fieldName: "lastName", value: e.target.value })
                 }
                 }
                 className="h-11 w-full border border-gray-500 rounded px-2" />
@@ -90,7 +90,6 @@ export default function NotificationSignUp(
                 value={state.age}
                 onChange={(e) => {
                     dispatch({ type: "age", value: e.target.value })
-                    checkValid({ fieldName: "age", value: e.target.value })
                 }}
                 className="h-11 w-full border border-gray-500 rounded px-2 hover:cursor-pointer cursor-pointer" />
         </div>
@@ -102,6 +101,6 @@ export default function NotificationSignUp(
         >
             Submit
         </button>
-        {state.valid && text}
+        {state.valid && state.text}
     </div>
 }

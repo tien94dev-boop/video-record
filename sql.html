@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Master Deck - Bài Giảng Chi Tiết</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS RESET & BASE */
+        * { box-sizing: border-box; }
+        body { 
+            background-color: #f1f5f9; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            height: 100vh; 
+            font-family: 'Lato', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .slide-deck { width: 100vw; height: 100vh; position: relative; }
+        
+        .slide-container { 
+            width: 1200px; 
+            height: 700px; 
+            background-color: #ffffff; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            display: none; 
+            flex-direction: column; 
+            padding: 50px 70px; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .slide-container.active { display: flex; animation: slideIn 0.3s ease-out; }
+
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translate(-50%, -45%); } 
+            to { opacity: 1; transform: translate(-50%, -50%); } 
+        }
+
+        /* DECORATION */
+        .slide-container::before { 
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; 
+            background: linear-gradient(90deg, #0284c7, #38bdf8); 
+            border-radius: 15px 15px 0 0;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; color: #0f172a; margin: 0; }
+        h1 { font-size: 60px; font-weight: 700; color: #0284c7; }
+        .slide-title { 
+            font-size: 36px; font-weight: 700; margin-bottom: 30px; 
+            color: #1e293b; border-left: 8px solid #0284c7; padding-left: 20px; 
+        }
+        p, li { font-size: 22px; color: #475569; line-height: 1.5; }
+
+        /* TABLES */
+        .table-container { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+        .data-table { border-collapse: collapse; font-size: 14px; background: white; flex: 1; min-width: 280px; }
+        .data-table th { background: #0284c7; color: white; padding: 10px; text-align: left; }
+        .data-table td { border: 1px solid #e2e8f0; padding: 8px 10px; }
+        .table-label { font-weight: bold; color: #0284c7; margin-bottom: 5px; font-size: 16px; }
+
+        /* CARDS */
+        .exercise-card { 
+            background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; 
+            padding: 50px; position: relative; flex-grow: 1; display: flex; align-items: center;
+        }
+        .exercise-tag { 
+            position: absolute; top: -20px; left: 40px; background: #0284c7; 
+            color: white; padding: 6px 20px; border-radius: 8px; font-weight: 700; 
+        }
+        .exercise-text { font-size: 32px; font-weight: 600; color: #1e293b; line-height: 1.4; }
+
+        /* THEORY LAYOUTS */
+        .theory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        .theory-box { background: #f0f9ff; border-radius: 10px; padding: 25px; border: 1px solid #bae6fd; }
+        .theory-box h3 { font-size: 24px; color: #0369a1; margin-bottom: 10px; }
+
+        /* CONTROLS */
+        .nav-controls { position: fixed; bottom: 30px; display: flex; gap: 15px; z-index: 100; }
+        .nav-btn { 
+            background: #0284c7; color: white; width: 50px; height: 50px; 
+            border: none; border-radius: 50%; cursor: pointer; font-size: 20px;
+            transition: 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .nav-btn:hover { background: #0369a1; transform: scale(1.1); }
+        .page-num { align-self: center; color: #64748b; font-weight: 700; font-size: 18px; margin: 0 10px; }
+
+        pre { background: #1e293b; color: #f8fafc; padding: 20px; border-radius: 8px; font-size: 18px; }
+        .keyword { color: #38bdf8; font-weight: bold; }
+        .comment { color: #94a3b8; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="slide-deck">
+    <!-- SLIDE 1: TRANG CHỦ -->
+    <div class="slide-container active">
+        <div style="text-align: center; margin-top: 100px;">
+            <p style="text-transform: uppercase; letter-spacing: 4px; color: #0284c7; font-weight: 700;">Học liệu bài giảng</p>
+            <h1>SQL MASTER CLASS</h1>
+            <p style="font-size: 28px; margin-top: 20px;">Lý Thuyết Cơ Bản & Bài Tập Thực Hành</p>
+            <!-- <div style="margin-top: 60px; font-size: 18px; color: #94a3b8;">Sử dụng phím mũi tên hoặc nút điều hướng để bắt đầu</div> -->
+        </div>
+    </div>
+
+    <!-- SLIDE 2: MỤC LỤC -->
+    <div class="slide-container">
+        <h2 class="slide-title">Nội dung bài giảng</h2>
+        <div class="theory-grid" style="grid-template-columns: 1fr;">
+            <div class="theory-box">
+                <ul style="font-size: 26px; list-style: none;">
+                    <li style="margin-bottom: 15px;"><i class="fa-solid fa-book-open" style="color:#0284c7; margin-right: 15px;"></i> <strong>Phần 1:</strong> Lý thuyết căn bản (SELECT, WHERE, JOIN)</li>
+                    <li style="margin-bottom: 15px;"><i class="fa-solid fa-table" style="color:#0284c7; margin-right: 15px;"></i> <strong>Phần 2:</strong> Thiết lập dữ liệu mẫu (Câu 1)</li>
+                    <li style="margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square" style="color:#0284c7; margin-right: 15px;"></i> <strong>Phần 3:</strong> Thực hành truy vấn dữ liệu (Câu 2 - Câu 10)</li>
+                    <li style="margin-bottom: 15px;"><i class="fa-solid fa-chart-line" style="color:#0284c7; margin-right: 15px;"></i> <strong>Phần 4:</strong> Thống kê & Kết nối bảng (Câu 11 - Câu 18)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: LÝ THUYẾT 1 -->
+    <div class="slide-container">
+        <h2 class="slide-title">Lý thuyết 1: Lệnh SELECT & WHERE</h2>
+        <p>Đây là cấu trúc cơ bản nhất để lấy dữ liệu từ một bảng.</p>
+        <div class="theory-grid">
+            <div class="theory-box">
+                <h3>Cú pháp chính</h3>
+                <pre style="font-size: 16px;">
+<span class="keyword">SELECT</span> cột1, cột2
+<span class="keyword">FROM</span> tên_bảng
+<span class="keyword">WHERE</span> điều_kiện;</pre>
+            </div>
+            <div class="theory-box">
+                <h3>Ví dụ thực tế</h3>
+                <p style="font-size: 18px;">Lấy tên các sinh viên ở Yokohama:</p>
+                <pre style="font-size: 16px;">
+<span class="keyword">SELECT</span> name
+<span class="keyword">FROM</span> student
+<span class="keyword">WHERE</span> address = <span class="keyword">'Yokohama'</span>;</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: LÝ THUYẾT 2 -->
+    <div class="slide-container">
+        <h2 class="slide-title">Lý thuyết 2: Toán tử so sánh & Logic</h2>
+        <p>Dùng trong mệnh đề <code>WHERE</code> để lọc dữ liệu chính xác hơn.</p>
+        <div class="theory-grid">
+            <div class="theory-box">
+                <h3>So sánh & Tìm kiếm</h3>
+                <ul style="font-size: 18px;">
+                    <li><code>= , <></code> (Bằng , Khác)</li>
+                    <li><code>BETWEEN 70 AND 80</code> (Trong khoảng)</li>
+                    <li><code>LIKE 'A%'</code> (Bắt đầu bằng A)</li>
+                    <li><code>LIKE '__2%'</code> (Ký tự thứ 3 là số 2)</li>
+                </ul>
+            </div>
+            <div class="theory-box">
+                <h3>Kết hợp Logic</h3>
+                <ul style="font-size: 18px;">
+                    <li><code>AND</code>: Thỏa mãn cả hai</li>
+                    <li><code>OR</code>: Thỏa mãn một trong hai</li>
+                    <li><code>NOT</code>: Phủ định điều kiện</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: LÝ THUYẾT 3 -->
+    <div class="slide-container">
+        <h2 class="slide-title">Lý thuyết 3: Hàm gộp & Sắp xếp</h2>
+        <div class="theory-grid">
+            <div class="theory-box">
+                <h3>Hàm thống kê (Aggregate)</h3>
+                <ul style="font-size: 18px;">
+                    <li><code>SUM()</code>: Tính tổng giá trị</li>
+                    <li><code>AVG()</code>: Tính trung bình</li>
+                    <li><code>COUNT()</code>: Đếm số bản ghi</li>
+                </ul>
+                <p style="font-size: 16px;">* Thường đi kèm với <code>GROUP BY</code></p>
+            </div>
+            <div class="theory-box">
+                <h3>Sắp xếp (ORDER BY)</h3>
+                <pre style="font-size: 16px;">
+<span class="keyword">ORDER BY</span> cột <span class="keyword">ASC</span>; <span class="comment">-- Tăng dần</span>
+<span class="keyword">ORDER BY</span> cột <span class="keyword">DESC</span>; <span class="comment">-- Giảm dần</span></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: LÝ THUYẾT 4 -->
+    <div class="slide-container">
+        <h2 class="slide-title">Lý thuyết 4: Kết nối bảng (JOIN)</h2>
+        <p>Dùng khi cần lấy dữ liệu từ nhiều bảng khác nhau có liên kết với nhau.</p>
+        <div class="theory-box" style="margin-top: 20px;">
+            <pre>
+<span class="keyword">SELECT</span> s.name, sc.score
+<span class="keyword">FROM</span> student s
+<span class="keyword">JOIN</span> score sc <span class="keyword">ON</span> s.student_number = sc.student_number;</pre>
+            <p style="font-size: 18px; margin-top: 15px;">
+                <i class="fa-solid fa-lightbulb" style="color:#f59e0b;"></i> 
+                <strong>Mẹo:</strong> Sử dụng Alias (tên thay thế như <code>s</code>, <code>sc</code>) giúp câu lệnh ngắn gọn và dễ đọc hơn.
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Q1 - CẤU TRÚC 3 BẢNG -->
+    <div class="slide-container">
+    <h2 class="slide-title">Câu 1: Thiết lập dữ liệu mẫu</h2>
+    <div class="table-container">
+        <!-- Bảng Student: Đầy đủ 6 bản ghi -->
+        <div>
+            <div class="table-label"><i class="fa-solid fa-user-graduate"></i> student</div>
+            <table class="data-table">
+                <tr><th>student<br/>_number</th><th>name</th><th>gender</th><th>address</th></tr>
+                <tr><td>1201</td><td>Shizuka Yamamoto</td><td>Female</td><td>Yokohama City</td></tr>
+                <tr><td>1221</td><td>Yuka Motoyama</td><td>Female</td><td>Kawasaki City</td></tr>
+                <tr><td>1231</td><td>Jiro Yamada</td><td>Male</td><td>Kawasaki City</td></tr>
+                <tr><td>1232</td><td>Shiro Yamamoto</td><td>Male</td><td>Yokohama City</td></tr>
+                <tr><td>1233</td><td>Karin Kida</td><td>Female</td><td>Yokosuka City</td></tr>
+                <tr><td>1235</td><td>Shinji Kimoto</td><td>Male</td><td>Yokohama City</td></tr>
+            </table>
+        </div>
+
+        <!-- Bảng Subject: Đầy đủ 4 bản ghi theo yêu cầu mới -->
+        <div>
+            <div class="table-label"><i class="fa-solid fa-book"></i> subject</div>
+            <table class="data-table">
+                <tr><th>subject<br/>_code</th><th>subject<br/>_name</th></tr>
+                <tr><td>A01</td><td>Mathematics I</td></tr>
+                <tr><td>A02</td><td>Mathematics II</td></tr>
+                <tr><td>B01</td><td>English I</td></tr>
+                <tr><td>B02</td><td>English II</td></tr>
+            </table>
+        </div>
+
+        <!-- Bảng Score: Đầy đủ 7 bản ghi -->
+        <div>
+            <div class="table-label"><i class="fa-solid fa-star"></i> score</div>
+            <table class="data-table">
+                <tr><th>student<br/>_number</th><th>subject<br/>_code</th><th>score</th><th>examination<br/>_date</th></tr>
+                <tr><td>1201</td><td>A01</td><td>60</td><td>10/10/1999</td></tr>
+                <tr><td>1201</td><td>B01</td><td>85</td><td>10/11/1999</td></tr>
+                <tr><td>1221</td><td>A01</td><td>70</td><td>10/10/1999</td></tr>
+                <tr><td>1221</td><td>B02</td><td>60</td><td>10/11/1999</td></tr>
+                <tr><td>1231</td><td>A02</td><td>90</td><td>10/10/1999</td></tr>
+                <tr><td>1231</td><td>B01</td><td>80</td><td>10/11/1999</td></tr>
+                <tr><td>1231</td><td>B02</td><td>75</td><td>10/11/1999</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <!-- SLIDE 8: Q1 - CODE SQL -->
+    <div class="slide-container">
+        <h2 class="slide-title">Câu 1: Lệnh tạo bảng (DDL)</h2>
+        <pre style="font-size: 16px;">
+<span class="keyword">CREATE TABLE</span> student (
+    student_number <span class="keyword">CHAR</span>(4) <span class="keyword">PRIMARY KEY</span>,
+    name <span class="keyword">VARCHAR</span>(50),
+    gender <span class="keyword">VARCHAR</span>(10),
+    address <span class="keyword">VARCHAR</span>(100)
+);
+
+<span class="keyword">CREATE TABLE</span> subject (
+    subject_code <span class="keyword">CHAR</span>(3) <span class="keyword">PRIMARY KEY</span>,
+    subject_name <span class="keyword">VARCHAR</span>(50)
+);
+
+<span class="keyword">CREATE TABLE</span> score (
+    student_number <span class="keyword">CHAR</span>(4),
+    subject_code <span class="keyword">CHAR</span>(3),
+    score <span class="keyword">INT</span>,
+    examination_date <span class="keyword">DATE</span>,
+    <span class="keyword">PRIMARY KEY</span> (student_number, subject_code)
+);</pre>
+    </div>
+
+    <!-- BẮT ĐẦU BÀI TẬP -->
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q2</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị <strong>tên (name)</strong> và <strong>địa chỉ (address)</strong> của tất cả các bản ghi trong bảng student table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q3</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị tất cả thông tin của các sinh viên có giới tính là <strong>'Female'</strong> trong bảng student table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q4</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị tất cả các bản ghi trong bảng score table, ngoại trừ những bản ghi có mã số sinh viên là <strong>'1221'</strong>.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q5</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi có <strong>ngày thi (examination_date)</strong> là '10/10/1999' <strong>VÀ (AND)</strong> <strong>điểm (score)</strong> từ 80 trở lên trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q6</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi có <strong>ngày thi (examination_date)</strong> là '10/10/1999' <strong>HOẶC (OR)</strong> <strong>điểm (score)</strong> từ 80 trở lên trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q7</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi có <strong>điểm (score)</strong> nằm trong khoảng từ 70 đến 80 trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q8</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi có <strong>mã môn học (subject_code)</strong> bắt đầu bằng ký tự 'A' trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q9</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi có ký tự thứ 3 của <strong>mã số sinh viên (student_number)</strong> là '2' trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q10</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị những bản ghi thoả mãn:<br><br>(Điểm >= 70 VÀ Ngày thi = '10/11/1999') <br>HOẶC (Mã môn học kết thúc bằng '1').</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q11</div>
+            <div class="exercise-text">Viết câu lệnh SQL để tính <strong>tổng (SUM)</strong> điểm của mỗi sinh viên trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q12</div>
+            <div class="exercise-text">Viết câu lệnh SQL để tính điểm <strong>trung bình (AVG)</strong> cho mỗi môn học trong bảng score table.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q13</div>
+            <div class="exercise-text">Viết câu lệnh SQL để <strong>đếm (COUNT)</strong> số lượng thí sinh tham gia thi theo từng ngày thi.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q14</div>
+            <div class="exercise-text">Viết câu lệnh SQL để sắp xếp bảng điểm theo thứ tự <strong>giảm dần (DESC)</strong> của cột score.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q15</div>
+            <div class="exercise-text">Viết câu lệnh SQL để sắp xếp điểm thi trong bảng score table theo thứ tự giảm dần của mã môn (subject code) và tăng dần của mã số sinh viên.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q16</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị tổng điểm của mỗi sinh viên và sắp xếp kết quả theo thứ tự tổng điểm <strong>giảm dần</strong>.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q17</div>
+            <div class="exercise-text">Viết câu lệnh SQL để hiển thị: <strong>Mã số sinh viên</strong>, <strong>Tên môn học</strong> và <strong>Điểm thi</strong> bằng cách kết nối bảng score và subject.</div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="exercise-card">
+            <div class="exercise-tag">BÀI TẬP Q18</div>
+            <div class="exercise-text">Viết câu lệnh SQL để lấy ra <strong>Tên sinh viên (name)</strong> của những người có điểm thi (score) từ 60 trở xuống.</div>
+        </div>
+    </div>
+
+    <!-- SLIDE CUỐI -->
+    <div class="slide-container">
+        <div style="text-align: center; margin-top: 150px;">
+            <h1 style="color: #10b981;">KẾT THÚC</h1>
+            <p>Hy vọng bộ Slide này giúp bạn nắm vững kiến thức SQL!</p>
+            <i class="fa-solid fa-graduation-cap" style="font-size: 100px; color: #f59e0b; margin-top: 40px;"></i>
+        </div>
+    </div>
+
+</div>
+
+<!-- NAV UI -->
+<div class="nav-controls">
+    <button class="nav-btn" onclick="prev()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="page-num" id="pageNum">1 / 25</div>
+    <button class="nav-btn" onclick="next()"><i class="fa-solid fa-arrow-right"></i></button>
+</div>
+
+<script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide-container');
+    const pageNum = document.getElementById('pageNum');
+
+    function update() {
+        slides.forEach((s, i) => s.classList.toggle('active', i === current));
+        pageNum.innerText = `${current + 1} / ${slides.length}`;
+    }
+
+    function next() { if (current < slides.length - 1) { current++; update(); } }
+    function prev() { if (current > 0) { current--; update(); } }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') next();
+        if (e.key === 'ArrowLeft') prev();
+    });
+</script>
+
+</body>
+</html>
