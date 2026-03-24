@@ -8,7 +8,7 @@ export default function ThemeToggle() {
     console.log("theme", theme)
     const isOn = theme === "dark"
     return (
-        <div className="fixed top-4 right-4">
+        <div className="fixed bottom-4 right-4">
             <button
                 onClick={toggleTheme}
                 type="button"
