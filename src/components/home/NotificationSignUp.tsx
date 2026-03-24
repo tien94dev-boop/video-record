@@ -1,11 +1,13 @@
 import Link from "next/link"
+import { useTheme } from "@/context/ThemeContext"
 
 
 interface NotificationSignUpInterface{
     handleNotificationClose: ()=>void
 }
 export default function NotificationSignUp({ handleNotificationClose }: NotificationSignUpInterface) {
-    return <div className="w-full text-center bg-black px-4 py-2 relative text-white text-sm">
+    const { theme } = useTheme()
+    return <div className={`w-full text-center  px-4 py-2 relative text-sm ${theme === "light" ? " bg-black text-white " : "bg-gray-200 text-black"}`}>
         Sign up and get 20% off to your first order.
         <Link href={"/"} className="font-semibold"> Sign Up Now</Link>
         <div className="absolute right-4 top-2 hover:cursor-pointer cursor-pointer w-6 h-6" onClick={()=>handleNotificationClose()}>

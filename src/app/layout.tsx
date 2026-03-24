@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeContext"
+import { ShoppingCartProvider } from "@/context/ShoppingCartContext"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-montserrat", 
+  variable: "--font-montserrat",
 });
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +23,11 @@ export default function RootLayout({
       <body
         className={`${montserrat.className} antialiased container mx-auto`}
       >
-        {children}
+        <ShoppingCartProvider>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </ShoppingCartProvider>
       </body>
     </html>
   );

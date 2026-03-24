@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import InputQuantity from "./InputQuantity"
-export default function AddToCart() {
+export default function AddToCart({ productId }: { productId: string | number }) {
     const [showInput, setShowInput] = useState(false)
 
     function handleCloseInput() {
@@ -9,7 +9,7 @@ export default function AddToCart() {
     }
     return <div className="flex justify-end">
         {showInput ?
-            <InputQuantity initValue={1} handleCloseInput={handleCloseInput} /> :
+            <InputQuantity initValue={1} handleCloseInput={handleCloseInput} productId={productId}/> :
             <p
                 className="h-13 w-13 flex items-center justify-center bg-black text-xl text-white rounded-full font-bold"
                 onClick={() => setShowInput(true)}>

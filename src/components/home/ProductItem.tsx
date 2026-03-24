@@ -8,10 +8,11 @@ interface ProductItemInterface {
     rate: number
     originalPrice: number
     discountPercent: number
-    imgURL: string
+    imgURL: string, 
+    productId: string | number
 }
 
-export default function ProductItem({ productName, rate, originalPrice, discountPercent, imgURL }: ProductItemInterface){
+export default function ProductItem({ productName, rate, originalPrice, discountPercent, imgURL, productId }: ProductItemInterface){
     
     return <div className="col-span-4 md:col-span-2 lg:col-span-1 gap-4">
     {/* Product Image */}
@@ -31,7 +32,7 @@ export default function ProductItem({ productName, rate, originalPrice, discount
       </div>
       <Rate rateNumber={rate}/>
       <ProductPrice originalPrice={originalPrice} discountPercent={discountPercent}/>
-      <AddToCart/>
+      <AddToCart productId={productId}/>
     </div>
 
  
